@@ -1,0 +1,1201 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "",
+    "version": "1.0.0",
+    "title": "Sekam",
+    "termsOfService": "",
+    "contact": {
+      "email": "admin@sekam.id"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "tags": [
+    {
+      "name": "role",
+      "description": "Roles Operations"
+    },
+    {
+      "name": "user",
+      "description": "User Management"
+    },
+    {
+      "name": "category",
+      "description": "Product Category"
+    },
+    {
+      "name": "merchant",
+      "description": "Merchant By User"
+    },
+    {
+      "name": "product",
+      "description": "Products Management"
+    },
+    {
+      "name": "banner",
+      "description": "Banner Promotions"
+    }
+  ],
+  "servers": [
+    {
+      "url": "http://34.134.145.134",
+      "description": "Production server (uses live data)"
+    },
+    {
+      "url": "https://localhost:8080",
+      "description": "Sandbox server (uses test data)"
+    },
+    {
+      "url": "http://localhost:8080",
+      "description": "Local server"
+    }
+  ],
+  "paths": {
+    "/role": {
+      "post": {
+        "tags": [
+          "role"
+        ],
+        "summary": "Add a new role",
+        "description": "",
+        "operationId": "addRole",
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Role"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "role"
+        ],
+        "summary": "Get Role List",
+        "description": "",
+        "operationId": "getRole",
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Role not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "role"
+        ],
+        "summary": "Update Role",
+        "description": "",
+        "operationId": "updateRole",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Role"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Role not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/role/{roleId}": {
+      "delete": {
+        "tags": [
+          "role"
+        ],
+        "summary": "Delete Role",
+        "description": "",
+        "operationId": "deleteRole",
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "roleId",
+            "in": "path",
+            "description": "Role id to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Role not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Add a new user",
+        "description": "",
+        "operationId": "addUser",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Get User List",
+        "description": "",
+        "operationId": "getUser",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Update User",
+        "description": "",
+        "operationId": "updateUser",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Role not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/user/{userId}": {
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Delete User",
+        "description": "",
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User id to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Role not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/category": {
+      "post": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Add Categories",
+        "description": "",
+        "operationId": "addCategory",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Get All Categories",
+        "description": "",
+        "operationId": "getCategory",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Update Category",
+        "description": "",
+        "operationId": "updateCategory",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/category/{categoryId}": {
+      "delete": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Delete Category",
+        "description": "",
+        "operationId": "deleteCategory",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "description": "User id to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Role not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/merchant": {
+      "post": {
+        "tags": [
+          "merchant"
+        ],
+        "summary": "Add Merchant",
+        "description": "",
+        "operationId": "addMerchant",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Merchant"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "merchant"
+        ],
+        "summary": "Get All Merchant",
+        "description": "",
+        "operationId": "getMerchant",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "merchant"
+        ],
+        "summary": "Update Merchant",
+        "description": "",
+        "operationId": "updateMerchant",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Merchant"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/merchant/{merchantId}": {
+      "delete": {
+        "tags": [
+          "merchant"
+        ],
+        "summary": "Delete Merchant",
+        "description": "",
+        "operationId": "deleteMerchant",
+        "parameters": [
+          {
+            "name": "merchantId",
+            "in": "path",
+            "description": "Merchant id to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Role not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/product": {
+      "post": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Add Product",
+        "description": "",
+        "operationId": "addProduct",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Get All Product",
+        "description": "",
+        "operationId": "getProduct",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Update Product",
+        "description": "",
+        "operationId": "updateProduct",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/product/{productId}": {
+      "delete": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Delete Product",
+        "description": "",
+        "operationId": "deleteProduct",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "Product id to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Role not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/banner": {
+      "post": {
+        "tags": [
+          "banner"
+        ],
+        "summary": "Add Banner",
+        "description": "",
+        "operationId": "addBanner",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Banner"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "banner"
+        ],
+        "summary": "Get All Banner",
+        "description": "",
+        "operationId": "getBanner",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "banner"
+        ],
+        "summary": "Update Banner",
+        "description": "",
+        "operationId": "updateBanner",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Banner"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    },
+    "/banner/{bannerId}": {
+      "delete": {
+        "tags": [
+          "banner"
+        ],
+        "summary": "Delete Banner",
+        "description": "",
+        "operationId": "deleteBanner",
+        "parameters": [
+          {
+            "name": "bannerId",
+            "in": "path",
+            "description": "Banner id to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Role not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKey": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    },
+    "schemas": {
+      "Role": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "only required on update (PUT method)"
+          },
+          "name": {
+            "type": "string",
+            "example": "Admin"
+          },
+          "description": {
+            "type": "string",
+            "example": "Admin"
+          }
+        },
+        "xml": {
+          "name": "Role"
+        }
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "only required on update (PUT method)"
+          },
+          "name": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string",
+            "example": "base64 string",
+            "description": "base64 string"
+          }
+        },
+        "xml": {
+          "name": "Category"
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "only required on update (PUT method)"
+          },
+          "username": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "roleId": {
+            "type": "integer"
+          }
+        },
+        "xml": {
+          "name": "User"
+        }
+      },
+      "Merchant": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "only required on update"
+          },
+          "username": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "coordinate": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "integer"
+          }
+        },
+        "xml": {
+          "name": "Merchant"
+        }
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "only required on update"
+          },
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "merchantId": {
+            "type": "string"
+          },
+          "categoryId": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Product"
+        }
+      },
+      "Banner": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "only required on update (PUT method)"
+          },
+          "title": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string",
+            "example": "base64 string",
+            "description": "base64 string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Banner"
+        }
+      },
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}
