@@ -24,7 +24,9 @@ export default {
       const transactionActive = await Transaction.count({ 
         where: {
           [Op.and]: {
-            status: 1, // active
+            status: {
+              [Op.gt]: 0
+            }, // active or sold
             eventId
           }
       }});
