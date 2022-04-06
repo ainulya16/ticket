@@ -1,772 +1,231 @@
-openapi: "3.0.0"
-info:
-  description: ""
-  version: "1.0.0"
-  title: "Sekam"
-  termsOfService: ""
-  contact:
-    email: "admin@sekam.id"
-  license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-
-tags:
-- name: "role"
-  description: "Roles Operations"
-- name: "user"
-  description: "User Management"
-- name: "category"
-  description: "Product Category"
-- name: "merchant"
-  description: "Merchant By User"
-- name: "product"
-  description: "Products Management"
-- name: "banner"
-  description: "Banner Promotions"
-  
+openapi: 3.0.0
 servers:
-  - url: http://34.134.145.134
-    description: Production server (uses live data)
-  - url: https://localhost:8080
-    description: Sandbox server (uses test data)
-  - url: http://localhost:8080
-    description: Local server
-    
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/ainulya16/Ticketing/1.0.0
+info:
+  description: Simple Ticketing API
+  version: "1.0.0"
+  title: Ticketing API
+  contact:
+    email: ainulyaqinmuntako@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: events
+    description: Operations for event
+  - name: tickets
+    description: Operations for tickets (create new, buy ticket)
+  - name: updateTransaction
+    description: Operation to update transaction status
 paths:
-  /role:
-    post:
-      tags:
-      - "role"
-      summary: "Add a new role"
-      description: ""
-      operationId: "addRole"
-      security:
-        - ApiKey: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Role"
-      responses:
-        "200":
-          description: "Success"
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "405":
-          description: "Invalid input"
-      
+  /event:
     get:
       tags:
-      - "role"
-      summary: "Get Role List"
-      description: ""
-      operationId: "getRole"
-      security:
-        - ApiKey: []
-      responses:
-        "200":
-          description: "Success"
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: "Role not found"
-        "405":
-          description: "Validation exception"
-
-    put:
-      tags:
-      - "role"
-      summary: "Update Role"
-      description: ""
-      operationId: "updateRole"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Role"
-      security:
-        - ApiKey: []
-      responses:
-        "200":
-          description: "Success"
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: "Role not found"
-        "405":
-          description: "Validation exception"
-      
-  /role/{roleId}:
-    delete:
-      tags:
-      - "role"
-      summary: "Delete Role"
-      description: ""
-      operationId: "deleteRole"
-      security:
-        - ApiKey: []
+        - events
+      summary: List of available events
+      operationId: getEventList
+      description: |
+        By passing in the appropriate options, you can search for
+        available events
       parameters:
-        - name: "roleId"
-          in: "path"
-          description: "Role id to delete"
-          required: true
+        - in: query
+          name: name
+          description: pass an optional search string for looking up event name
+          required: false
           schema:
-            type: "integer"
-            format: "int64"
+            type: string
+        - in: query
+          name: limit
+          description: maximum number of records to return
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
       responses:
-        "200":
-          description: "Success"
+        '200':
+          description: list of available events
           content:
-            application/json:    
+            application/json:
               schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: "Role not found"
-        "405":
-          description: "Validation exception"
-  
-  /user:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventItem'
+        '400':
+          description: bad input parameter
     post:
       tags:
-      - "user"
-      summary: "Add a new user"
-      description: ""
-      operationId: "addUser"
+        - events
+      summary: create new event
+      operationId: addEvent
+      description: Create a new event to the system
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing event already exists
       requestBody:
-        required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
-      responses:
-        "200":
-          description: "Success"
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "405":
-          description: "Invalid input"
-      security:
-      - ApiKey: []
-      
-    get:
-      tags:
-      - "user"
-      summary: "Get User List"
-      description: ""
-      operationId: "getUser"
-      responses:
-        "200":
-          description: "Success"
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: "User not found"
-        "405":
-          description: "Validation exception"
-      security: 
-      - ApiKey: []
-      
-    put:
-      tags:
-      - "user"
-      summary: "Update User"
-      description: ""
-      operationId: "updateUser"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/User"
-      responses:
-        "200":
-          description: "Success"
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: "Role not found"
-        "405":
-          description: "Validation exception"
-      security: 
-      - ApiKey: []
-      
-  /user/{userId}:
+              $ref: '#/components/schemas/NewEventItem'
+        description: Event item to add
     delete:
       tags:
-      - "user"
-      summary: "Delete User"
-      description: ""
-      operationId: "deleteUser"
-      parameters:
-      - name: "userId"
-        in: "path"
-        description: "User id to delete"
-        required: true
-        schema:
-          type: "integer"
-          format: "int64"
+        - events
+      summary: Delete event
+      operationId: deleteEvent
+      description: Delete Event by ID
+      parameters: 
+        - in: query
+          name: id
+          required: true
+          description: Id of Event
+          schema:
+            type: string
       responses:
-        "200":
-          description: "Success"
+        '200':
+          description: list of available events
           content:
-            application/json:    
+            application/json:
               schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: "Role not found"
-        "405":
-          description: "Validation exception"
-      security: 
-      - ApiKey: []
-  
-  /category:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Event has been deleted"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 1
+        '400':
+          description: bad input parameter
+        '404':
+          description: event not found
+          
+  /ticket/buy:
     post:
       tags:
-      - "category"
-      summary: "Add Categories"
-      description: ""
-      operationId: "addCategory"
+        - tickets
+      summary: Buy ticket
+      operationId: buyTicket
+      description: Customer can buy ticket (by selected event), when it succeed, customer receive invoice detail through email or redirect to payment page
+      responses:
+        '200':
+          description: Ticket successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Transaction has been created
+                  data:
+                    type: object
+                    properties:
+                      transactionId:
+                        type: integer
+                        example: 99
+                      detail:
+                        type: string
+                        example: Tiket MotoGP Mandalika
+                      amount:
+                        type: integer
+                        example: 100000
+                      
+        '400':
+          description: 'invalid input or ticket has been sold'
       requestBody:
-        required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Category"
-      responses:
-        "200":
-          description: "Success"
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: "Not found"
-        "405":
-          description: "Validation exception"
-      security: 
-      - ApiKey: []
-
-    get:
-      tags:
-      - "category"
-      summary: "Get All Categories"
-      description: ""
-      operationId: "getCategory"
-      responses:
-        "200":
-          description: "Success"
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: "Not found"
-        "405":
-          description: "Validation exception"
-      security: 
-      - ApiKey: []
-
-    put:
-      tags:
-      - "category"
-      summary: "Update Category"
-      description: ""
-      operationId: "updateCategory"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Category"
-      responses:
-        "200":
-          description: "Success"
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: "Not found"
-        "405":
-          description: "Validation exception"
-      security: 
-      - ApiKey: []
-  
-  /category/{categoryId}:
-    delete:
-      tags:
-      - "category"
-      summary: "Delete Category"
-      description: ""
-      operationId: "deleteCategory"
-      parameters:
-      - name: "categoryId"
-        in: "path"
-        description: "User id to delete"
-        required: true
-        schema:
-          type: "integer"
-          format: "int64"
-      responses:
-        "200":
-          description: "Success"
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: "Role not found"
-        "405":
-          description: "Validation exception"
-      security: 
-      - ApiKey: []
-  
-  /merchant:
+              $ref: '#/components/schemas/BuyTicket'
+  /transaction/success:
     post:
       tags:
-      - "merchant"
-      summary: "Add Merchant"
-      description: ""
-      operationId: "addMerchant"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Merchant"
-      responses:
-        "200":
-          description: "Success"
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: "Not found"
-        "405":
-          description: "Validation exception"
-      security: 
-      - ApiKey: []
-
-    get:
-      tags:
-      - "merchant"
-      summary: "Get All Merchant"
-      description: ""
-      operationId: "getMerchant"
-      responses:
-        "200":
-          description: "Success"
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: "Not found"
-        "405":
-          description: "Validation exception"
-      security: 
-      - ApiKey: []
-
-    put:
-      tags:
-      - "merchant"
-      summary: "Update Merchant"
-      description: ""
-      operationId: "updateMerchant"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Merchant"
-      responses:
-        "200":
-          description: "Success"
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: "Not found"
-        "405":
-          description: "Validation exception"
-      security: 
-      - ApiKey: []
-  
-  /merchant/{merchantId}:
-    delete:
-      tags:
-      - "merchant"
-      summary: "Delete Merchant"
-      description: ""
-      operationId: "deleteMerchant"
+        - updateTransaction
+      description: Used for cross API communication to update transaction status depends on payment status from Payment Gateway. Can be use as Callback URL's Payment Gateway API (request body must be adjusted depend on API DOCS of Payment Gateway)
       parameters:
-      - name: "merchantId"
-        in: "path"
-        description: "Merchant id to delete"
-        required: true
-        schema:
-          type: "integer"
-          format: "int64"
+        - in: query
+          name: transactionId
+          example: XXXX1234XXXX
+          schema:
+            type: string
       responses:
-        "200":
-          description: "Success"
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: "Role not found"
-        "405":
-          description: "Validation exception"
-      security: 
-      - ApiKey: []
-      
-  /product:
-    post:
-      tags:
-      - "product"
-      summary: "Add Product"
-      description: ""
-      operationId: "addProduct"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Product"
-      responses:
-        "200":
-          description: "Success"
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: "Not found"
-        "405":
-          description: "Validation exception"
-      security: 
-      - ApiKey: []
-
-    get:
-      tags:
-      - "product"
-      summary: "Get All Product"
-      description: ""
-      operationId: "getProduct"
-      responses:
-        "200":
-          description: "Success"
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: "Not found"
-        "405":
-          description: "Validation exception"
-      security: 
-      - ApiKey: []
-
-    put:
-      tags:
-      - "product"
-      summary: "Update Product"
-      description: ""
-      operationId: "updateProduct"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Product"
-      responses:
-        "200":
-          description: "Success"
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: "Not found"
-        "405":
-          description: "Validation exception"
-      security: 
-      - ApiKey: []
-  
-  /product/{productId}:
-    delete:
-      tags:
-      - "product"
-      summary: "Delete Product"
-      description: ""
-      operationId: "deleteProduct"
-      parameters:
-      - name: "productId"
-        in: "path"
-        description: "Product id to delete"
-        required: true
-        schema:
-          type: "integer"
-          format: "int64"
-      responses:
-        "200":
-          description: "Success"
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: "Role not found"
-        "405":
-          description: "Validation exception"
-      security: 
-      - ApiKey: []
-  
-  /banner:
-    post:
-      tags:
-      - "banner"
-      summary: "Add Banner"
-      description: ""
-      operationId: "addBanner"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Banner"
-      responses:
-        "200":
-          description: "Success"
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: "Not found"
-        "405":
-          description: "Validation exception"
-      security: 
-      - ApiKey: []
-
-    get:
-      tags:
-      - "banner"
-      summary: "Get All Banner"
-      description: ""
-      operationId: "getBanner"
-      responses:
-        "200":
-          description: "Success"
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: "Not found"
-        "405":
-          description: "Validation exception"
-      security: 
-      - ApiKey: []
-
-    put:
-      tags:
-      - "banner"
-      summary: "Update Banner"
-      description: ""
-      operationId: "updateBanner"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Banner"
-      responses:
-        "200":
-          description: "Success"
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: "Not found"
-        "405":
-          description: "Validation exception"
-      security: 
-      - ApiKey: []
-  
-  /banner/{bannerId}:
-    delete:
-      tags:
-      - "banner"
-      summary: "Delete Banner"
-      description: ""
-      operationId: "deleteBanner"
-      parameters:
-      - name: "bannerId"
-        in: "path"
-        description: "Banner id to delete"
-        required: true
-        schema:
-          type: "integer"
-          format: "int64"
-      responses:
-        "200":
-          description: "Success"
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/ApiResponse"
-        "404":
-          description: "Role not found"
-        "405":
-          description: "Validation exception"
-      security: 
-      - ApiKey: []
-  
+        '200':
+          description: Transaction has been updated
 components:
-  securitySchemes:
-    ApiKey:
-       type: apiKey
-       name: Authorization
-       in: header
   schemas:
-    Role:
-      type: "object"
+    EventItem:
+      type: object
       required:
-      - "name"
+        - id
+        - name
+        - quota
+        - price
+        - eventDate
       properties:
         id:
-          type: "integer"
-          format: "int64"
-          description: "only required on update (PUT method)"
+          type: integer
+          example: 1
         name:
-          type: "string"
-          example: "Admin"
-        description:
-          type: "string"
-          example: "Admin"
-      xml:
-        name: "Role"
-    Category:
-      type: "object"
-      properties:
-        id:
-          type: "integer"
-          format: "int64"
-          description: "only required on update (PUT method)"
-        name:
-          type: "string"
-        image:
-          type: "string"
-          example: "base64 string"
-          description: "base64 string"
-      xml:
-        name: "Category"
-    User:
-      type: "object"
-      properties:
-        id:
-          type: "integer"
-          format: "int64"
-          description: "only required on update (PUT method)"
-        username:
-          type: "string"
-        name:
-          type: "string"
-        email:
-          type: "string"
-        password:
-          type: "string"
-        phone:
-          type: "string"
-        roleId:
-          type: "integer"
-      xml:
-        name: "User"
-    Merchant:
-      type: "object"
-      properties:
-        id:
-          type: "integer"
-          description: "only required on update"
-        username:
-          type: "string"
-        name:
-          type: "string"
-        address:
-          type: "string"
-        coordinate:
-          type: "string"
-        email:
-          type: "string"
-        phone:
-          type: "string"
-        description:
-          type: "string"
-        userId:
-          type: "integer"
-      xml:
-        name: "Merchant"
-    Product:
-      type: "object"
-      properties:
-        id:
-          type: "integer"
-          description: "only required on update"
-        name:
-          type: "string"
+          type: string
+          example: MotoGP Mandalika
+        quota:
+          type: integer
+          example: 10000
         price:
-          type: "string"
-        description:
-          type: "string"
-        merchantId:
-          type: "string"
-        categoryId:
-          type: "string"
-      xml:
-        name: "Product"
-    Banner:
-      type: "object"
+          type: integer
+          example: 1000000
+        eventDate:
+          type: string
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
+    NewEventItem:
+      type: object
+      required:
+        - name
+        - quota
+        - price
+        - eventDate
       properties:
-        id:
-          type: "integer"
-          format: "int64"
-          description: "only required on update (PUT method)"
-        title:
-          type: "string"
-        image:
-          type: "string"
-          example: "base64 string"
-          description: "base64 string"
-        description:
-          type: "string"
-      xml:
-        name: "Banner"
-    ApiResponse:
-      type: "object"
+        name:
+          type: string
+          example: MotoGP Mandalika
+        quota:
+          type: integer
+          example: 10000
+        price:
+          type: integer
+          example: 1000000
+        eventDate:
+          type: string
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
+    BuyTicket:
+      type: object
+      required:
+        - eventId
+        - username
+        - email
+        - phone
       properties:
-        data:
-          type: "object"
-        message:
-          type: "string"
-externalDocs:
-  description: "Find out more about Swagger"
-  url: "http://swagger.io"
+        eventId:
+          type: integer
+          example: 1
+        username:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          example: gmail@johndoe.com
+        phone:
+          type: string
+          example: 62898212322
