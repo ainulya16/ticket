@@ -1,57 +1,28 @@
-# Backend skeleton
+## API DOCS
+https://app.swaggerhub.com/apis/ainulya16/Ticketing/1.0.0
+## Initialization
 
-Backend skeleton
-
-## Features
-
-- [x] Sample structure
-- [x] API testing with Postman / newman
-
-## Develop
-
-To install depedencies
+### Install depedencies
 
 ```bash
 npm install
 ```
 
-To run develop
+### Database Preparation
+- adjust database connection on **src/config/config.json** file.
 
+- run migration
 ```bash
-npm run start:dev
+npm run db:migrate
 ```
 
-To run test
+### Run Locally
 
 ```bash
-npm test
+npm run dev
 ```
 
-To run api test
-
-```bash
-npm run test:newman
-```
-
-To run code coverage check
-
-```bash
-npm run cover
-```
-
-To run dependencies security audit
-
-```bash
-npm audit
-```
-
-To run production
-
+## Rollout
 ```bash
 npm run build
-npm start
 ```
-
-# For More documentation to configure infra
-### https://cloud.google.com/appengine/docs/standard/nodejs/config/appref
-### https://cloud.google.com/appengine/docs/flexible/nodejs/configuring-your-app-with-app-yaml

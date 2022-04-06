@@ -1,0 +1,364 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Ticketing API",
+    "description": "Simple Ticketing API",
+    "contact": {
+      "email": "ainulyaqinmuntako@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://virtserver.swaggerhub.com/ainulya16/Ticketing/1.0.0",
+      "description": "SwaggerHub API Auto Mocking"
+    }
+  ],
+  "tags": [
+    {
+      "name": "events",
+      "description": "Operations for event"
+    },
+    {
+      "name": "tickets",
+      "description": "Operations for tickets (create new, buy ticket)"
+    },
+    {
+      "name": "updateTransaction",
+      "description": "Operation to update transaction status"
+    }
+  ],
+  "paths": {
+    "/event": {
+      "get": {
+        "tags": [
+          "events"
+        ],
+        "summary": "List of available events",
+        "description": "By passing in the appropriate options, you can search for\navailable events\n",
+        "operationId": "getEventList",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "pass an optional search string for looking up event name",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "maximum number of records to return",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "maximum": 50,
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "list of available events",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EventItem"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad input parameter"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "events"
+        ],
+        "summary": "create new event",
+        "description": "Create a new event to the system",
+        "operationId": "addEvent",
+        "requestBody": {
+          "description": "Event item to add",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewEventItem"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "item created"
+          },
+          "400": {
+            "description": "invalid input, object invalid"
+          },
+          "409": {
+            "description": "an existing event already exists"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "events"
+        ],
+        "summary": "Delete event",
+        "description": "Delete Event by ID",
+        "operationId": "deleteEvent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Id of Event",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "list of available events",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad input parameter"
+          },
+          "404": {
+            "description": "event not found"
+          }
+        }
+      }
+    },
+    "/ticket/buy": {
+      "post": {
+        "tags": [
+          "tickets"
+        ],
+        "summary": "Buy ticket",
+        "description": "Customer can buy ticket (by selected event), when it succeed, customer receive invoice detail through email or redirect to payment page",
+        "operationId": "buyTicket",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuyTicket"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ticket successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid input or ticket has been sold"
+          }
+        }
+      }
+    },
+    "/transaction/success": {
+      "post": {
+        "tags": [
+          "updateTransaction"
+        ],
+        "description": "Used for cross API communication to update transaction status depends on payment status from Payment Gateway. Can be use as Callback URL's Payment Gateway API (request body must be adjusted depend on API DOCS of Payment Gateway)",
+        "parameters": [
+          {
+            "name": "transactionId",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "XXXX1234XXXX"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction has been updated"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EventItem": {
+        "required": [
+          "eventDate",
+          "id",
+          "name",
+          "price",
+          "quota"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "MotoGP Mandalika"
+          },
+          "quota": {
+            "type": "integer",
+            "example": 10000
+          },
+          "price": {
+            "type": "integer",
+            "example": 1000000
+          },
+          "eventDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2016-08-29T09:12:33.001Z"
+          }
+        }
+      },
+      "NewEventItem": {
+        "required": [
+          "eventDate",
+          "name",
+          "price",
+          "quota"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "MotoGP Mandalika"
+          },
+          "quota": {
+            "type": "integer",
+            "example": 10000
+          },
+          "price": {
+            "type": "integer",
+            "example": 1000000
+          },
+          "eventDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2016-08-29T09:12:33.001Z"
+          }
+        }
+      },
+      "BuyTicket": {
+        "required": [
+          "email",
+          "eventId",
+          "phone",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "eventId": {
+            "type": "integer",
+            "example": 1
+          },
+          "username": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "gmail@johndoe.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "62898212322"
+          }
+        }
+      },
+      "inline_response_200": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Event has been deleted"
+          },
+          "data": {
+            "$ref": "#/components/schemas/inline_response_200_data"
+          }
+        }
+      },
+      "inline_response_200_1": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Transaction has been created"
+          },
+          "data": {
+            "$ref": "#/components/schemas/inline_response_200_1_data"
+          }
+        }
+      },
+      "inline_response_200_data": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "1"
+          }
+        },
+        "example": null
+      },
+      "inline_response_200_1_data": {
+        "type": "object",
+        "properties": {
+          "transactionId": {
+            "type": "integer",
+            "example": 99
+          },
+          "detail": {
+            "type": "string",
+            "example": "Tiket MotoGP Mandalika"
+          },
+          "amount": {
+            "type": "integer",
+            "example": 100000
+          }
+        },
+        "example": null
+      }
+    }
+  }
+}

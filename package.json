@@ -6,17 +6,13 @@
   "scripts": {
     "start": "node ./dist/index.js",
     "dev": "nodemon --exec babel-node src/index.js",
-    "start:stg": "NODE_ENV=staging nodemon --exec babel-node src/index.js",
     "test": "jest",
     "watch": "jest --watch",
     "test:newman": "jest tests/** --detectOpenHandles",
     "cover": "jest --coverage",
     "lint": "eslint \"src/**/*.js\"",
     "build": "babel ./src --out-dir dist --copy-files",
-    "db:migrate": "sequelize db:migrate",
-    "db:migrate:staging": "sequelize db:migrate --env=staging",
-    "db:seed": "sequelize db:seed:all",
-    "db:seed:staging": "sequelize db:seed:all --env=staging"
+    "db:migrate": "npx sequelize-cli db:migrate"
   },
   "license": "MIT",
   "devDependencies": {
