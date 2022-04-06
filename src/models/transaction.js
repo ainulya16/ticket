@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER,
     eventId: DataTypes.INTEGER,
     amount: DataTypes.INTEGER,
-    status: DataTypes.ENUM('active', 'inactive', 'success')
+    status: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Transaction',

@@ -12,7 +12,9 @@ export default {
         },
       }
       await Ticket.update({ code, status: 'active' }, { where: { transactionId }})
-      await Transaction.update({status: 'success' }, options)
+      await Transaction.update({
+        status: 2 // success 
+      }, options)
       res.status(200).send({ message: "Transaction has been created"});
     } catch (error) {
       res.status(error.code || 400).send(error.message);

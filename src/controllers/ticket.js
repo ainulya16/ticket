@@ -21,14 +21,15 @@ export default {
       /**
        * check event available quota
        */
-      const ticket = await Ticket.count({ 
+      const transactionActive = await Transaction.count({ 
         where: {
           [Op.and]: {
-            status: 'active',
+            status: 1, // active
             eventId
           }
       }});
-      if(ticket === event.quota) {
+      console.log(transactionActive)
+      if(transactionActive === event.quota) {
         res.status(400).send({ message: "Ticket has been sold"})
         return
       }
@@ -46,6 +47,7 @@ export default {
         eventId,
         userId: user.id,
         amount: event.price,
+        status: 1
       }
       
       const transaction = await Transaction.create(transactionParams)
