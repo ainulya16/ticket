@@ -1,5 +1,8 @@
 ## API DOCS
 https://app.swaggerhub.com/apis/ainulya16/Ticketing/1.0.0
+
+## DATABASE DESIGN
+https://drawsql.app/ai-3/diagrams/ticket
 ## Initialization
 
 ### Install depedencies
