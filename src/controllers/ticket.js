@@ -1,14 +1,36 @@
+import { Op } from 'sequelize';
 import { Ticket, Event, Transaction, User } from '../models';
 
 export default {
+  async all(req, res) {
+    try {
+      const data = await Ticket.findAll({ where: { eventId: req.params.eventId }});
+      res.status(200).send(data);
+    } catch (error) {
+      res.status(error.code || 400).send(error.message);
+    }
+  },
   async buy(req, res) {
     const { eventId, username, email, phone } = req.body;
     try {
       const event = await Event.findOne({ where: { id: eventId } })
-      console.log(event)
       if(!event) {
         res.status(400).send({ message: "Event does not exist"});
         return;
+      }
+      /**
+       * check event available quota
+       */
+      const ticket = await Ticket.count({ 
+        where: {
+          [Op.and]: {
+            status: 'active',
+            eventId
+          }
+      }});
+      if(ticket === event.quota) {
+        res.status(400).send({ message: "Ticket has been sold"})
+        return
       }
 
       const user = await User.findOrCreate({

@@ -13,6 +13,7 @@ route.get('/event', Event.list); // Event List
 route.delete('/event/:id', Event.delete); // Event List
 
 route.post('/ticket/buy', Ticket.buy);
+route.get('/ticket/:eventId', Ticket.all);
 
 // URL Callback to update payment status by transaction ID
 route.post('/transaction/success/', Transaction.update);
