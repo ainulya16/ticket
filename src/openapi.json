@@ -16,6 +16,10 @@
     {
       "url": "https://virtserver.swaggerhub.com/ainulya16/Ticketing/1.0.0",
       "description": "SwaggerHub API Auto Mocking"
+    },
+    {
+      "url": "127.0.0.1:3000",
+      "description": "Development"
     }
   ],
   "tags": [
@@ -126,7 +130,7 @@
         "parameters": [
           {
             "name": "id",
-            "in": "query",
+            "in": "path",
             "description": "Id of Event",
             "required": true,
             "style": "form",

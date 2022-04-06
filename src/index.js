@@ -2,7 +2,6 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import logger from 'morgan';
 import cors from 'cors';
-import dotEnv from 'dotenv';
 import route from './route';
 import errorHandler from './helpers/errorHandler';
 import swaggerUi from 'swagger-ui-express';
@@ -13,8 +12,6 @@ var options = {
   explorer: true
 };
 
-
-dotEnv.config();
 
 const port = process.env.PORT || 3000;
 const app = express();

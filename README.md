@@ -12,8 +12,9 @@ npm install
 - adjust database connection on **src/config/config.json** file.
 
 - run migration
+
 ```bash
-npm run db:migrate
+cd src && sequelize-cli db:migrate
 ```
 
 ### Run Locally

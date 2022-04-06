@@ -81,7 +81,7 @@ paths:
       operationId: deleteEvent
       description: Delete Event by ID
       parameters: 
-        - in: query
+        - in: path
           name: id
           required: true
           description: Id of Event

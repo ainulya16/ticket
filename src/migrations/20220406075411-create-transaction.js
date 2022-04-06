@@ -18,8 +18,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       status: {
-        type: Sequelize.ENUM('active', 'inactive'),
-        defaultValue: 'inactive'
+        type: Sequelize.ENUM('failed', 'success')
       },
       createdAt: {
         allowNull: false,

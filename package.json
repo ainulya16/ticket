@@ -11,8 +11,7 @@
     "test:newman": "jest tests/** --detectOpenHandles",
     "cover": "jest --coverage",
     "lint": "eslint \"src/**/*.js\"",
-    "build": "babel ./src --out-dir dist --copy-files",
-    "db:migrate": "npx sequelize-cli db:migrate"
+    "build": "babel ./src --out-dir dist --copy-files"
   },
   "license": "MIT",
   "devDependencies": {
